@@ -1,0 +1,37 @@
+# IMPORTING LIBRARIES
+library(rvest)
+library(dplyr)
+library(robotstxt)
+
+#Checking whether website can be scrapped
+path = paths_allowed("https://www.amazon.in/?&ext_vrnc=hi&tag=googinhydr1-21&ref=pd_sl_2c4nhm6jb0_b&adgrpid=58361985549&hvpone=&hvptwo=&hvadid=617721268549&hvpos=&hvnetw=g&hvrand=17102084359403300200&hvqmt=b&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9061968&hvtargid=kwd-298972033817&hydadcr=5876_2361999&gclid=CjwKCAiAvK2bBhB8EiwAZUbP1I-gjk70SlKWS7AbroAHvDYGTRZac6s6mp-LGt0LBYiD8Og4_sh0OxoC9zYQAvD_BwE")
+
+# SCRAPPING WEBSITE
+link <-
+  'https://www.amazon.in/s?bbn=49852747031&rh=n%3A49852747031%2Cp_89%3ACanon&dc&qid=1668002717&rnid=3837712031&ref=lp_49852747031_nr_p_89_1'
+
+
+# HTML ELEMENTS FROM WEBSITE
+web <- read_html(link)
+
+# SEGREGATING NAMES
+name <- web %>%html_nodes(".s-line-clamp-4")%>% html_text()
+
+# VIEWING NAME LIST
+View(name)
+
+# SEGREGATING YEARS
+price <- web %>% html_nodes(".a-price-whole") %>% html_text()
+
+# VIEW YEAR LIST
+View(price)
+
+# CREATING DATAFRAME
+cameraprice <- data.frame(name, price)
+
+# VIEW DATAFRAME
+View(cameraprice)
+
+# SAVING DATA
+write.csv (cameraprice, "My_cameraprice.csv")
+
